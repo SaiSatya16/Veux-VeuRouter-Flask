@@ -13,7 +13,8 @@ const a = new Vue({
     el: '#app',
     delimiters: ['%{', '}'],
     data: {
-        message: 'Hello Vue!'
+        message: 'Hello Vue!',
+        flag : false,
     },
     router,
 

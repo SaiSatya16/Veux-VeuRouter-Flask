@@ -4,7 +4,10 @@ const Home =Vue.component('home', {
                     
             This is the Home page !!
             generate 50 words of lorem ipsum placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. 
-                </div>`
+                </div>`,
+    mounted : function(){
+        document.title = "Home";
+    }
 });
 
 export default Home;

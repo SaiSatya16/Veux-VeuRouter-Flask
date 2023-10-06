@@ -44,6 +44,22 @@ def add_post():
     # return render_template('add_post.html')
 
 #route to delete a post
+
+#/edit_post/${id}
+@app.route('/edit_post/<int:id>', methods=['GET', 'POST'])
+def edit_post(id):
+    if request.method == 'POST':
+        data = request.get_json()
+        a = (data.get('title'))
+        b = (data.get('content'))
+        post = Blog.query.filter_by(id=id)
+        post.update({'title' : a}, {'content':b})
+        db.session.commit()
+        return  jsonify({'message': 'success'})
+
+
+
+
 @app.route('/delete_post/<int:id>')
 def delete_post(id):
     post = Blog.query.get(id)

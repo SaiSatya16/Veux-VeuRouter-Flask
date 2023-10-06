@@ -8,6 +8,7 @@ const Post = Vue.component('post', {
                         <h6 class="card-subtitle mb-2 text-body-secondary">Post Id: {{post.id}}</h6>
                         <p class="card-text">{{post.content}}</p>
                         <button @click="delete_blog(post.id)" class="card-link">delete post</button>
+                        <button data-bs-toggle="modal" data-bs-target="#editModal" class="card-link">Edit post</button>
                         </div>
                 </div>
             </div>
@@ -17,7 +18,7 @@ const Post = Vue.component('post', {
                     </button>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
@@ -44,7 +45,35 @@ const Post = Vue.component('post', {
                         </div>
                         </div>
                     </div>
+                </div>
+                <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editModal">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class= "my-3">
+                                <label for="title"> Enter Post Title</label>
+                                <input v-model = "title" type="text" id="title" class="form-control" placeholder="Title">
+                            
+                            </div>
+                            <div class="my-3">
+
+                                <label for="Content"> Enter Post Content</label>
+                                <input v-model = "content" type="text" id="Content" class="form-control" placeholder="Content">
+                                
+                            
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" @click="editblog(post.id)" class="btn btn-primary" data-bs-dismiss="modal" >Submit</button>
+                        </div>
+                        </div>
                     </div>
+                </div>
             </div>`,
         data: function() {
             return {
@@ -91,6 +120,34 @@ const Post = Vue.component('post', {
                         this.posts = data;
                     })
                 
+                });
+            },
+            editblog: function(id){
+                console.log(this.title);
+                console.log(this.content);
+                fetch(`/edit_post/${id}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        title: this.title,
+                        content: this.content,
+                    }),
+                }).then(response => response.json()).then(data => {
+                    console.log(data);
+                    fetch("/get_allposts").then(response => response.json()).then(data => {
+                        console.log(data);
+                        this.posts = data;
+                    })
+
+                    // this.posts.push(data);
+                    // this.title = "";
+                    // this.content = "";
+                    // // this.$router.go(0);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
                 });
             }
 

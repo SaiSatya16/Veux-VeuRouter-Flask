@@ -11,12 +11,7 @@ const Posts = Vue.component('posts', {
                 <h6 class="card-subtitle mb-2 text-body-secondary">Post Id: {{post.id}}</h6>
                 <p class="card-text">{{post.content}}</p>
                 <button @click="delete_blog(post.id)" class="card-link">delete post</button>
-                <button
-                type="button"
-                class="card-link"
-                :data-bs-target="'#editModal' + post.id"
-                data-bs-toggle="modal"
-                >
+                <button type="button" class="card-link" :data-bs-target="'#editModal' + post.id" data-bs-toggle="modal">
                 Edit post
                 </button>
 
@@ -57,11 +52,11 @@ const Posts = Vue.component('posts', {
                 <div class="modal-body">
                     <div class="my-3">
                         <label for="title">Enter Post Title</label>
-                        <input v-model="title" type="text" id="title" class="form-control" placeholder="Title">
+                        <input v-model="title" type="text" id="title" class="form-control" :placeholder= "post.title">
                     </div>
                     <div class="my-3">
                         <label for="Content">Enter Post Content</label>
-                        <input v-model="content" type="text" id="Content" class="form-control" placeholder="Content">
+                        <input v-model="content" type="text" id="Content" class="form-control" :placeholder= "post.content">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -125,7 +120,13 @@ methods: {
             return response.json();
         })
         .then(data => {
-            this.posts = this.posts.filter(post => post.id !== id);
+            console.log("Success:", data);
+            fetch("/get_allposts")
+                .then((response) => response.json())
+                .then((data) => {
+                  console.log("Data returned from the backend:", data);
+                  this.posts_data = data;
+                });
         })
         .catch(error => {
             console.error('Error:', error);

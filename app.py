@@ -48,14 +48,14 @@ def add_post():
 #/edit_post/${id}
 @app.route('/edit_post/<int:id>', methods=['GET', 'POST'])
 def edit_post(id):
-    if request.method == 'POST':
-        data = request.get_json()
-        a = (data.get('title'))
-        b = (data.get('content'))
-        post = Blog.query.filter_by(id=id)
-        post.update({'title' : a}, {'content':b})
-        db.session.commit()
-        return  jsonify({'message': 'success'})
+    data = request.get_json()
+    print("Post Title:", data.get("title"),
+          "Post Description:", data.get("content"))
+    blog = Blog.query.get(id)
+    blog.title = data.get("title")
+    blog.content = data.get("content")
+    db.session.commit()
+    return jsonify("Post successfully updated")
 
 
 

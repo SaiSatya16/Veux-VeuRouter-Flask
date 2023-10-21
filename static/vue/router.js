@@ -3,7 +3,7 @@ import About from "./components/about.js";
 import ContactUs from "./components/contact.js";
 import Course from "./components/course.js";
 import Cart from "./components/cart.js";
-import Post from "./components/post.js";
+import Posts from "./components/post.js";
 
 const routes = [
     { 
@@ -29,8 +29,8 @@ const routes = [
 
     },
     {
-        path:'/post',
-        component: Post,
+        path:'/posts',
+        component: Posts,
     }
 ];
 const router = new VueRouter({

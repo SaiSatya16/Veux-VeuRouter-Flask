@@ -1,6 +1,9 @@
 const Posts = Vue.component('posts', {
     template: `<div>
     <h1>Post</h1>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Create Post
+    </button>
     <div class="row">
         <div class="card my-4 mx-4 col-4" v-for="post in posts_data" style="width: 18rem;">
             <div class="card-body">
@@ -72,9 +75,7 @@ const Posts = Vue.component('posts', {
         </div>
     </div>
 
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Create Post
-    </button>
+
 </div>
 `,
 data: function() {
@@ -102,10 +103,14 @@ methods: {
             }
             return response.json();
         })
-        .then(data => {
-            this.posts_data.push(data);
-            this.title = "";
-            this.content = "";
+        .then((data) => {
+            console.log("Success:", data);
+            fetch("/get_allposts")
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("Data returned from the backend:", data);
+                this.posts_data = data;
+              });
         })
         .catch(error => {
             console.error('Error:', error);

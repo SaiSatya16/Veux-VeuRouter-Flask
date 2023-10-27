@@ -46,16 +46,6 @@ def add_post():
         db.session.add(blog)
         db.session.commit()
         return  jsonify({'message': 'success'})
-    #     title = request.form['title']
-    #     content = request.form['content']
-
-    #     post = Blog(title=title, content=content)
-    #     db.session.add(post)
-    #     db.session.commit()
-    #     return redirect(url_for('get_allposts'))
-    # return render_template('add_post.html')
-
-#route to delete a post
 
 #/edit_post/${id}
 @app.route('/edit_post/<int:id>', methods=['GET', 'POST'])

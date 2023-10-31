@@ -1,21 +1,21 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from celery_worker import make_celery
+# from celery_worker import make_celery
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 
 db = SQLAlchemy(app)
 
-app.config.update(
-    CELERY_BROKER_URL='redis://localhost:6379',
-    CELERY_RESULT_BACKEND='redis://localhost:6379'
-)
-celery = make_celery(app)
+# app.config.update(
+#     CELERY_BROKER_URL='redis://localhost:6379',
+#     CELERY_RESULT_BACKEND='redis://localhost:6379'
+# )
+# celery = make_celery(app)
 
-@celery.task()
-def add_together(a, b):
-    return a + b
+# @celery.task()
+# def add_together(a, b):
+#     return a + b
 
 
 class Blog(db.Model):

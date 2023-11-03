@@ -4,6 +4,8 @@ const Posts = Vue.component('posts', {
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
     Create Post
     </button>
+
+    <button @click = "trigger_celery_job" > Trigger a celery task </button>
     <div class="row">
         <div class="card my-4 mx-4 col-4" v-for="post in posts_data" style="width: 18rem;">
             <div class="card-body">
@@ -156,8 +158,25 @@ methods: {
             .catch((error) => {
               console.error("Error:", error);
             });
-        }
-        },
+    },
+    trigger_celery_job: function() {
+        fetch("/trigger_celery_job")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Success:", data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+
+},
 mounted: function() {
     document.title = "Posts";
     fetch("/get_allposts")

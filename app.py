@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from celery_worker import make_celery
+from celery.result import AsyncResult
 import time
 
 app = Flask(__name__)
@@ -18,6 +19,42 @@ celery = make_celery(app)
 def add_together(a, b):
     time.sleep(5)
     return a + b
+
+@celery.task()
+def generate_csv():
+    time.sleep(8)
+# importing the csv module
+    import csv
+
+    # field names
+    fields = ['Name', 'Branch', 'Year', 'CGPA']
+
+    # data rows of csv file
+    rows = [ ['Nikhil', 'COE', '2', '9.0'],
+            ['Sanchit', 'COE', '2', '9.1'],
+            ['Aditya', 'IT', '2', '9.3'],
+            ['Sagar', 'SE', '1', '9.5'],
+            ['Prateek', 'MCE', '3', '7.8'],
+            ['Sahil', 'EP', '2', '9.1']]
+
+    # name of csv file
+    filename = "static/data.csv"
+
+    # writing to csv file
+    with open(filename, 'w') as csvfile:
+        # creating a csv writer object
+        csvwriter = csv.writer(csvfile)
+        
+        # writing the fields
+        csvwriter.writerow(fields)
+        
+        # writing the data rows
+        csvwriter.writerows(rows)
+
+    return "CSV generation started..."
+
+
+
 
 
 class Blog(db.Model):
@@ -73,10 +110,16 @@ def delete_post(id):
 
 @app.route('/trigger_celery_job')
 def trigger_celery_job():
-    a = add_together.delay(23, 42)
-    return jsonify({"Task id": a.id, "status": a.status, "result": a.get(), })
+    a = generate_csv.delay()
+    return jsonify({"task_id": a.id, "status": a.status, "result": a.get(), "State": a.state })
 
-    
+@app.route("/status/<task_id>")
+def check_status(task_id):
+    task = AsyncResult(task_id)
+    return jsonify({"task_id": task.id, "status": task.status, "result": task.get(), "State": task.state })
+
+
+
 
 
 if __name__ == '__main__':

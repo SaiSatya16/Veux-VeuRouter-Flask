@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_file
 from flask_sqlalchemy import SQLAlchemy
 from celery_worker import make_celery
 from celery.result import AsyncResult
@@ -22,7 +22,7 @@ def add_together(a, b):
 
 @celery.task()
 def generate_csv():
-    time.sleep(8)
+    time.sleep(5)
 # importing the csv module
     import csv
 
@@ -118,8 +118,10 @@ def check_status(task_id):
     task = AsyncResult(task_id)
     return jsonify({"task_id": task.id, "status": task.status, "result": task.get(), "State": task.state })
 
-
-
+@app.route("/download_csv")
+def download_file():
+    path = "static/data.csv"
+    return send_file(path, as_attachment=True)
 
 
 if __name__ == '__main__':

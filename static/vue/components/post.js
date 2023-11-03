@@ -168,19 +168,9 @@ methods: {
             return response.json();
         })
         .then(data => {
-            console.log("Success:", data)
-            let interval = setInterval(() => {
-                fetch(`/status/${data.task_id}`).then(response => response.json())
-                .then(d=>{
-                    if(d.task_state === "SUCCESS"){
-                        console.log("Task completed")
-                        clearInterval(interval);
-                    }
-                    else{
-                        console.log("Task running")
-                    }
-                })
-        },4000)})
+            console.log("Success:", data);
+            window.location.href = "/download_csv"
+            })
         .catch(error => {
             console.error('Error:', error);
         });

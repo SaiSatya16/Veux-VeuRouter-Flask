@@ -15,31 +15,7 @@ const Posts = Vue.component('posts', {
              <button type="button" class="card-link" :data-bs-target="'#editModal' + post.id" data-bs-toggle="modal">
              Edit post
              </button>
-             <!-- Create Post Modal -->
-             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                   <div class="modal-content">
-                      <div class="modal-header">
-                         <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                         <div class="my-3">
-                            <label for="title">Enter Post Title</label>
-                            <input v-model="title" type="text" id="title" class="form-control" placeholder="Title">
-                         </div>
-                         <div class="my-3">
-                            <label for="Content">Enter Post Content</label>
-                            <input v-model="content" type="text" id="Content" class="form-control" placeholder="Content">
-                         </div>
-                      </div>
-                      <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                         <button type="button" @click="addblog" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
-                      </div>
-                   </div>
-                </div>
-             </div>
+            
              <!-- Edit Post Modal -->
              <div class="modal fade" :id="'editModal' + post.id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="'editModalLabel' + post.id" aria-hidden="true">
                 <div class="modal-dialog">
@@ -64,6 +40,33 @@ const Posts = Vue.component('posts', {
                       </div>
                    </div>
                 </div>
+             </div>
+          </div>
+       </div>
+    </div>
+
+
+    <!-- Create Post Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+       <div class="modal-dialog">
+          <div class="modal-content">
+             <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             </div>
+             <div class="modal-body">
+                <div class="my-3">
+                   <label for="title">Enter Post Title</label>
+                   <input v-model="title" type="text" id="title" class="form-control" placeholder="Title">
+                </div>
+                <div class="my-3">
+                   <label for="Content">Enter Post Content</label>
+                   <input v-model="content" type="text" id="Content" class="form-control" placeholder="Content">
+                </div>
+             </div>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" @click="addblog" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
              </div>
           </div>
        </div>
